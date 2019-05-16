@@ -1,0 +1,18 @@
+:root {
+  --primary-color: #0E6BA8;
+  --bg-light: #F6FCFE;
+  --bg-dark: #00072D;
+  --txt-light: black;
+  --txt-dark: white;
+}
+
+html {
+  font-family: 'Lato', sans-serif;
+  background-color: var(--bg-light);
+  color: var(--txt-light);
+}
+
+html.dark {
+  background-color: var(--bg-dark);
+  color: var(--txt-dark);
+}

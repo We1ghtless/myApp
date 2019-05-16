@@ -3,15 +3,43 @@
   <head>
     <meta charset="utf-8">
     <title>Home</title>
-    <link rel="stylesheet" href="/css/master.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/master.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   </head>
-  <body>
-    <div class="container">
+  {% include 'include/_navbar.html' %}
+  <body onload="getLocation()">
+    <main class="wrapper">
 
       {%  block body %} {% endblock %}
 
-      <div class="bottom: 1%;">
-        <hr>
-      </div>
+    </main>
+
+    <button class="toggle-theme">Toggle Theme</button>
+
+    <script type="text/javascript">
+
+      const html = document.querySelector('html');
+      const button = document.querySelector('button');
+
+      button.addEventListener('click', () => {
+          html.classList.toggle('dark');
+      });
+
+      var x = document.getElementById("location");
+
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+          x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+      }
+
+      function showPosition(position) {
+        x.innerHTML = "Latitude: " + position.coords.latitude +
+        "<br>Longitude: " + position.coords.longitude;
+      }
+
+    </script>
   </body>
 </html>
