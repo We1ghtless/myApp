@@ -1,11 +1,31 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<h2 id="location"</h2>
-<h2>{{data.name}}</h2>
-<h2>{{data.is_potentially_hazardous_asteroid}}</h2>
-<h2>{{data}}</h2>
 
-<h2>{{storm_data}}</h2>
+<div class="content">
+  <div class="container top">
+    <a class="unsplash" href="https://unsplash.com/@beckeli?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Mary Rebecca Elliott"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewBox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"></path></svg></span><span style="display:inline-block;padding:2px 3px">Mary Rebecca Elliott</span></a>
+    <h1>Beer Pressure</h1>
+    <h2>Your favourite beers and where to find them</h2>
+    <form class="" action="" method="post">
+      <div class="form-control">
+      {{render_field(form.search, class_="form-control")}}
+      </div>
+      <div class="">
+        <p><input type="submit" class="" value="Search"><p>
+      </div>
+    </form>
+    <div class="container">
+      <ul>
+        {% for beer in beers %}
+          <li>
+            <img src="{{beer.beer.beer_label}}" alt="">
+            <h2>{{beer.beer.beer_name}}</h2>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

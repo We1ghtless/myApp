@@ -1,18 +1,399 @@
 :root {
-  --primary-color: #0E6BA8;
-  --bg-light: #F6FCFE;
-  --bg-dark: #00072D;
-  --txt-light: black;
-  --txt-dark: white;
+  --bg-light: #E4D9DC;
+  --bg-dark: black;
+  --txt-light: white;
+  --mid-blue: #3066BE;
+  --light-blue: #6D94E0;
+  --txt-grey: #999999;
+  --link-colour: #E29CAF
+
 }
 
 html {
-  font-family: 'Lato', sans-serif;
+  font-family: ProximaNova, Helvetica, sans-serif;
   background-color: var(--bg-light);
-  color: var(--txt-light);
 }
 
-html.dark {
-  background-color: var(--bg-dark);
-  color: var(--txt-dark);
+body {
+  padding-top: 52px;
+  width: 100%;
+  position: absolute;
+  margin: 0;
+  line-height: 1;
+  letter-spacing: ;
+}
+
+a {
+  text-decoration: none;
+  color: var(--link-colour) !important;
+  line-height: 1.25em;
+}
+
+span {
+  color: var(--txt-grey);
+}
+
+main {
+  max-width: 1048px;
+  width: 100%;
+  margin: auto;
+  position: relative;
+}
+
+div {
+  display: block;
+}
+
+p {
+  color: var(--txt-grey);
+  line-height: 1.25em;
+}
+
+hr {
+  border: 0.5px solid #e9e9e9;
+}
+
+.container {
+  color: var(--text-light);
+  width: 100%;
+}
+
+.container.top {
+  width: 100%;
+  height: 800px;
+  /* background-image: url("../images/head-img.png"); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: absolute;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.unsplash {
+  background-color: black;
+  color: white;
+  text-decoration: none;
+  padding:4px 6px;
+  font-family: -apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;
+  font-size:12px;
+  font-weight: bold;
+  line-height: 1.2;
+  display: inline-block;
+  border-radius: 3px;
+  position: absolute;
+  right: 0;
+}
+
+.beer-page {
+  width: 100%;
+}
+
+.content {
+  width: 1048px;
+}
+
+.wrapper {
+  background-color: white;
+  padding: 14px;
+  width: 100%;
+  box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+
+}
+
+.beer {
+  width: 100%;
+  padding: 2px;
+}
+
+.top {
+  display: flex;
+  width: 100%;
+  height: 150px;
+  flex-direction: row;
+  margin-bottom: 16px;
+}
+
+.basic {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+
+}
+
+.label-cont {
+  display: inline-block;
+  vertical-align: top;
+  padding-right: 2%;
+  width: 20%;
+  height: auto;
+}
+
+.label {
+  width: 100%;
+  max-height: 150px;
+  max-width: auto;
+}
+
+.name {
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+h1 {
+  font-weight: 400;
+  font-size: 2em;
+  line-height: 1em;
+  margin-top: auto;
+  margin-bottom: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-bottom: 4px;
+}
+
+h2 {
+  font-weight: 400;
+  font-size: 1.25em;
+  line-height: 1em;
+  margin-top: auto;
+  margin-bottom: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-bottom: 4px;
+}
+
+.brewery {
+  font-size: 1.25em;
+  margin-bottom: 6px;
+  color: #888;
+}
+
+.style {
+  color: #888;
+  font-size: 1em;
+}
+
+.stats {
+  vertical-align: top;
+  width: 200px;
+  top: 0;
+  right: 0;
+  justify-content: center;
+}
+
+span {
+  color: #999999;
+}
+
+.stat {
+  display: block;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+  font-size: 0.7em;
+}
+
+.count {
+  font-size: 1.4em;
+}
+
+.details {
+  display: flex;
+  width: 100%;
+  margin-bottom: 16px;
+  border-top: 1px solid #e9e9e9;
+  border-bottom: 1px solid #e9e9e9;
+}
+
+.abv {
+  width: 14%;
+  display: inline-block;
+  vertical-align: top;
+  border-right: 1px solid #e9e9e9;
+  padding: 12px 0;
+  color: #999;
+  text-align: center;
+  font-size: 1em;
+  margin: auto;
+
+}
+
+.rating {
+  width: 21%;
+  display: inline-block;
+  vertical-align: top;
+  border-right: 1px solid #e9e9e9;
+  padding: 12px 0;
+  color: #999;
+  text-align: center;
+  font-size: 1em;
+  margin: auto;
+
+}
+
+.raters {
+  width: 32.9%;
+  display: inline-block;
+  vertical-align: top;
+  border-right: 1px solid #e9e9e9;
+  padding: 12px 0;
+  color: #999;
+  text-align: center;
+  font-size: 1em;
+  margin: auto;
+
+}
+
+.date {
+  width: 31.5%;
+  display: inline-block;
+  vertical-align: top;
+  border-right: 1px solid #e9e9e9;
+  padding: 12px 0;
+  color: #999;
+  text-align: center;
+  font-size: 1em;
+  margin: auto;
+
+}
+
+.carousel {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+}
+
+.photo {
+  width: 100%;
+}
+
+.activity-cont {
+  background-color: white;
+  padding: 14px;
+  width: 100%;
+}
+
+.checkin {
+  width: 100%;
+  padding: 6px;
+  margin-top: 20px;
+}
+
+.checkin-content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+
+}
+
+.avatar-img {
+  width: 52px;
+  height: 52px;
+  border-radius: 26px;
+}
+
+.checkin-text {
+  width: 80%;
+  padding-left: 20px;
+}
+
+.checkin-label {
+  width: 10%;
+}
+
+.checkin-details {
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+}
+
+.checkin-venue {
+  width: 50%;
+}
+
+.checkin-rating {
+  width: 50%;
+}
+
+.checkin-date {
+  width: 80%;
+  display: flex;
+  font-size: 14px;
+}
+
+.location {
+  margin: auto;
+  font-size: 1.25em;
+  color: #888;
+}
+
+.beer-count {
+  width: 35%;
+  display: inline-block;
+  vertical-align: top;
+  border-right: 1px solid #e9e9e9;
+  padding: 12px 0;
+  color: #999;
+  text-align: center;
+  font-size: 1em;
+  margin: auto;
+}
+
+.brewery-rating {
+  width: 35%;
+  display: inline-block;
+  vertical-align: top;
+  border-right: 1px solid #e9e9e9;
+  padding: 12px 0;
+  color: #999;
+  text-align: center;
+  font-size: 1em;
+  margin: auto;
+}
+
+.brewery-raters {
+  width: 30%;
+  display: inline-block;
+  vertical-align: top;
+  border-right: 1px solid #e9e9e9;
+  padding: 12px 0;
+  color: #999;
+  text-align: center;
+  font-size: 1em;
+  margin: auto;
+}
+
+.contact {
+  display: flex;
+  flex-direction: row;
+}
+
+.contact-icon {
+  float: right;
+  margin-bottom: 8px;
+  margin-left: 10px;
+  width: 42px;
+  height: 42px;
+}
+
+.link {
+
+}
+
+.credit {
+  font-size: 0.75em;
+  bottom: 0;
+  margin-top: 40px;
+  width: 1048px;
+  display: flex;
+  justify-content: center;
+  float: left;
+
 }

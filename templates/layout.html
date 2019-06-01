@@ -1,45 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Home</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/master.css') }}">
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-  </head>
-  {% include 'include/_navbar.html' %}
-  <body onload="getLocation()">
-    <main class="wrapper">
+<head>
+  <meta charset="utf-8">
+  <title>Beer Pressure</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/master.css') }}">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link rel="icon"
+  type="image/png"
+  href="{{url_for('static', filename='images/beer-icon.png')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='glide/dist/css/glide.core.min.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='glide/dist/css/glide.theme.min.css')}}">
 
-      {%  block body %} {% endblock %}
 
-    </main>
+</head>
+{% include 'include/_navbar.html' %}
+<body>
+  <main class="main">
+    {% from '/include/_formhelpers.html' import render_field %}
 
-    <button class="toggle-theme">Toggle Theme</button>
-
-    <script type="text/javascript">
-
-      const html = document.querySelector('html');
-      const button = document.querySelector('button');
-
-      button.addEventListener('click', () => {
-          html.classList.toggle('dark');
-      });
-
-      var x = document.getElementById("location");
-
-      function getLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(showPosition);
-        } else {
-          x.innerHTML = "Geolocation is not supported by this browser.";
-        }
-      }
-
-      function showPosition(position) {
-        x.innerHTML = "Latitude: " + position.coords.latitude +
-        "<br>Longitude: " + position.coords.longitude;
-      }
-
-    </script>
-  </body>
+    {%  block body %} {% endblock %}
+  </main>
+  <div class="credit">Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+</body>
 </html>

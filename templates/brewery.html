@@ -1,0 +1,138 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<section class="beer-page">
+  <div class="content">
+    <div class="wrapper">
+      <div class="beer">
+        <div class="top">
+          <div class="basic">
+            <div class="label-cont">
+              <img class="label" src="{{brewery.brewery.brewery_label}}" alt="Image not found">
+            </div>
+            <div class="name">
+              <h1>{{brewery.brewery.brewery_name}}</h1>
+              <p class="location">{{brewery.brewery.country_name}}, {{brewery.brewery.location.brewery_city}} {{brewery.brewery.location.brewery_state}}</p>
+              <p class="style">{{brewery.brewery.brewery_type}}</p>
+            </div>
+          </div>
+          <div class="stats">
+            <p>
+              <span class="stat">Total</span>
+              <span class="count">{{brewery.brewery.stats.total_count}}</span>
+            </p>
+            <hr>
+            <p><span class="stat">Monthly</span>
+              <span class="count">{{brewery.brewery.stats.monthly_count}}</span>
+            </p>
+          </div>
+          <div class="contact">
+            {% for i in brewery.brewery.contact %}
+            {% if i == "twitter" %}
+            <a href="https://twitter.com/{{brewery.brewery.contact.twitter}}">
+              <img class="contact-icon" src="{{url_for('static', filename='images/twitter.png')}}" alt="">
+            </a>
+            {% elif i == "facebook" %}
+            <a href="{{brewery.brewery.contact.facebook}}">
+              <img class="contact-icon" src="{{url_for('static', filename='images/facebook.png')}}" alt="">
+            </a>
+            {% elif i == "instagram" %}
+            <a href="https://www.instagram.com/{{brewery.brewery.contact.instagram}}">
+              <img class="contact-icon" src="{{url_for('static', filename='images/instagram.png')}}" alt="">
+            </a>
+            {% elif i == "url" %}
+            <a class="link" href="{{brewery.brewery.contact.url}}">
+              <img class="contact-icon" src="{{url_for('static', filename='images/link.png')}}" alt="">
+            </a>
+
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="details">
+          <p class="beer-count">{{brewery.brewery.beer_count}} Beers</p>
+          <p class="brewery-rating" id="rating">{{brewery.brewery.rating.rating_score}}</p>
+          <p class="brewery-raters">{{brewery.brewery.rating.rating_count}} Ratings</p>
+        </div>
+        <div class="bottom">
+          <p>{{brewery.brewery.brewery_description}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="carousel">
+      <div class="glide">
+        <div class="glide__track" data-glide-el="track">
+          <ul class="glide__slides">
+            {% for checkin in checkins %}
+            <li class="glide__slide"><img class="photo" src="{{checkin.photo.photo_img_md}}" alt=""></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- <div class="glide__arrows" data-glide-el="controls">
+        <button class="glide__arrow glide__arrow--left" data-glide-dir="<"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+        <path d="M0 12l10.975 11 2.848-2.828-6.176-6.176H24v-3.992H7.646l6.176-6.176L10.975 1 0 12z"></path>
+      </svg></button>
+      <button class="glide__arrow glide__arrow--right" data-glide-dir=">"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+      <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z"></path>
+    </svg></button> -->
+  </div>
+</div>
+
+<div class="activity-cont">
+  <div class="heading">
+    <h1>Recent Activity</h1>
+    <hr>
+    {% for checkin in checkins %}
+    <div class="checkin">
+      <div class="checkin-content">
+        <div class="avatar">
+          <a href="#">
+            <img class="avatar-img"src="{{checkin.user.user_avatar}}" alt="">
+          </a>
+        </div>
+        <div class="checkin-text">
+          <h2>{{checkin.user.first_name}} {{checkin.user.last_name}} is drinking  {{checkin.beer.beer_name}} by {{brewery.brewery_name}}</h2>
+          <div class="checkin-details">
+            <p class="checkin-venue">At: {{checkin.venue.venue_name}}</p>
+          </div>
+          <div class="checkin-date">
+            <p>{{checkin.created_at[:16]}}</p>
+          </div>
+        </div>
+        <div class="checkin-label">
+          <img class="label" src="{{checkin.beer.beer_label}}" alt="Label not found">
+        </div>
+      </div>
+    </div>
+    <hr>
+    {% endfor %}
+  </div>
+</div>
+</section>
+
+
+<script type="text/javascript">
+  var num = document.getElementById("rating").innerHTML;
+  int = parseFloat(num)
+  var n = int.toFixed(2);
+  document.getElementById("rating").innerHTML = n + "/5";
+</script>
+
+<script src="{{url_for('static', filename='glide/dist/glide.min.js')}}"></script>
+
+<script>
+  var input = 2000
+
+  var glide = new Glide('.glide', {
+    bound: true,
+    autoplay: input,
+    hoverpause: true,
+    perView: 3
+  })
+
+  glide.mount()
+</script>
+
+{% endblock %}
