@@ -1,3 +1,14 @@
-<header>
+{% from '/include/_formhelpers.html' import render_field %}
 
-</header>
+<header>
+  <ul class="nav">
+    <li><a class="heading" href="/">Beer Pressure</a></li>
+    <li><form class="form" action="" method="post">
+      <div class="form-control">
+        {{render_field(form.search, class_="form-control")}}
+      </div>
+      <p class="button-holder"><input type="submit" class="button" value="Search"><p>
+      </form></li>
+      <!-- <li class="login"><a class="active" href="{{loginUrl}}">Login</a></li> -->
+    </ul>
+  </header>

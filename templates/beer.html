@@ -2,14 +2,18 @@
 
 {% block body %}
 
-<section class="beer-page">
+<section class="page">
   <div class="content">
     <div class="wrapper">
-      <div class="beer">
+      <div class="stuff">
         <div class="top">
           <div class="basic">
             <div class="label-cont">
+              {% if beer.beer_label_hd|length %}
+              <img class="label" src="{{beer.beer_label_hd}}" alt="Image not found">
+              {% else %}
               <img class="label" src="{{beer.beer_label}}" alt="Image not found">
+              {% endif %}
             </div>
             <div class="name">
               <h1>{{beer.beer_name}}</h1>
@@ -61,7 +65,6 @@
   </div>
 </div>
 <div class="activity-cont">
-  <div class="heading">
     <h1>Recent Activity</h1>
     <hr>
     {% for checkin in checkins %}
@@ -73,10 +76,18 @@
           </a>
         </div>
         <div class="checkin-text">
-          <p>{{checkin.user.first_name}} {{checkin.user.last_name}} is drinking  {{beer.beer_name}} by {{brewery.brewery_name}}</p>
+          <p>{{checkin.user.first_name}} {{checkin.user.last_name}} is drinking  <a href="/beer/{{beer.bid}}">{{beer.beer_name}}</a> by <a href="/brewery/{{beer.brewery.brewery_id}}">{{brewery.brewery_name}}</a>
+            {% if checkin.venue.venue_name|length %}
+              at <a class="checkin-venue" href="/venue/{{checkin.venue.venue_id}}">
+                {{checkin.venue.venue_name}}
+              </a>
+            {% else %}
+
+            {% endif %}
+          </p>
           <div class="checkin-details">
-            <p class="checkin-venue">At: {{checkin.venue.venue_name}}</p>
-            <p class="checkin-rating">Rating: {{checkin.rating_score}}/5</p>
+
+            <p class="checkin-rating">Rating:      {{checkin.rating_score}}/5</p>
           </div>
           <div class="checkin-date">
             <p>{{checkin.created_at[:16]}}</p>
@@ -90,7 +101,6 @@
     <hr>
     {% endfor %}
   </div>
-</div>
 </div>
 </section>
 

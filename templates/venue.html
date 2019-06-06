@@ -9,57 +9,52 @@
         <div class="top">
           <div class="basic">
             <div class="label-cont">
-              <img class="label" src="{{brewery.brewery.brewery_label}}" alt="Image not found">
+              {% if venue.venue.venue_icon.lg|length %}
+              <img class="label" src="{{venue.venue.venue_icon.lg}}" alt="Image not found">
+              {% else %}
+              <img class="label" src="{{url_for('static', filename='images/pint.png')}}" alt="Image not found">
+              {% endif %}
             </div>
             <div class="name">
-              <h1>{{brewery.brewery.brewery_name}}</h1>
-              <p class="location">{{brewery.brewery.location.brewery_city}}, {{brewery.brewery.location.brewery_state}} {{brewery.brewery.country_name}}</p>
-              <p class="style">{{brewery.brewery.brewery_type}}</p>
+              <h1>{{venue.venue.venue_name}}</h1>
+              <p class="location">
+              <img class="location-pointer" src="{{url_for('static', filename='images/maps-and-flags.png')}}" alt="">
+              <a href="https://www.google.com/maps/search/?api=1&query={{venue.venue.location.venue_address}}+{{venue.venue.venue_name}}" target="_blank">{{venue.venue.location.venue_address}} | {{venue.venue.location.venue_city}}</a></p>
             </div>
           </div>
           <div class="stats">
             <p>
               <span class="stat">Total</span>
-              <span class="count">{{brewery.brewery.stats.total_count}}</span>
+              <span class="count">{{venue.venue.stats.total_count}}</span>
             </p>
             <hr>
             <p><span class="stat">Monthly</span>
-              <span class="count">{{brewery.brewery.stats.monthly_count}}</span>
+              <span class="count">{{venue.venue.stats.monthly_count}}</span>
             </p>
           </div>
+        </div>
+        <div class="bottom">
           <div class="contact">
-            {% for i in brewery.brewery.contact %}
+            {% for i in venue.venue.contact %}
             {% if i == "twitter" %}
-            <a href="https://twitter.com/{{brewery.brewery.contact.twitter}}">
+            <a href="https://twitter.com/{{venue.venue.contact.twitter}}">
               <img class="contact-icon" src="{{url_for('static', filename='images/twitter.png')}}" alt="">
             </a>
             {% elif i == "facebook" %}
-            <a href="{{brewery.brewery.contact.facebook}}">
+            <a href="{{venue.venue.contact.facebook}}">
               <img class="contact-icon" src="{{url_for('static', filename='images/facebook.png')}}" alt="">
             </a>
-            {% elif i == "instagram" %}
-            <a href="https://www.instagram.com/{{brewery.brewery.contact.instagram}}">
-              <img class="contact-icon" src="{{url_for('static', filename='images/instagram.png')}}" alt="">
-            </a>
             {% elif i == "url" %}
-            <a class="link" href="{{brewery.brewery.contact.url}}">
+            <a class="link" href="{{venue.venue.contact.url}}">
               <img class="contact-icon" src="{{url_for('static', filename='images/link.png')}}" alt="">
             </a>
-
             {% endif %}
             {% endfor %}
           </div>
         </div>
-        <div class="details">
-          <p class="beer-count">{{brewery.brewery.beer_count}} Beers</p>
-          <p class="brewery-rating" id="rating">{{brewery.brewery.rating.rating_score}}</p>
-          <p class="brewery-raters">{{brewery.brewery.rating.count}} Ratings</p>
-        </div>
-        <div class="bottom">
-          <p>{{brewery.brewery.brewery_description}}</p>
-        </div>
       </div>
     </div>
+
 
     <div class="carousel">
       <div class="glide">
@@ -80,40 +75,51 @@
   </div>
 </div>
 
-<div class="activity-cont">
-  <h1>Recent Activity</h1>
-  <hr>
-  {% for checkin in checkins %}
-  <div class="checkin">
-    <div class="checkin-content">
-      <div class="avatar">
-        <a href="#">
-          <img class="avatar-img"src="{{checkin.user.user_avatar}}" alt="">
-        </a>
-      </div>
-      <div class="checkin-text">
-        <p>{{checkin.user.first_name}} {{checkin.user.last_name}} is drinking  <a href="/beer/{{checkin.beer.bid}}">{{checkin.beer.beer_name}}</a> by <a href="/brewery/{{brewery.brewery_id}}">{{brewery.brewery.brewery_name}}</a>
-          {% if checkin.venue.venue_name|length %}
-          at <a class="checkin-venue" href="/venue/{{checkin.venue.venue_id}}">
-            {{checkin.venue.venue_name}}
-          </a>
-          {% else %}
-
-          {% endif %}
-        </p>
-        <div class="checkin-date">
-          <p>{{checkin.created_at[:16]}}</p>
-        </div>
-      </div>
-      <div class="checkin-label">
-        <img class="label" src="{{checkin.beer.beer_label}}" alt="Label not found">
+<div class="popular-cont">
+    {% for i in popular %}
+    <div class="pop-holder">
+      <img class="popular" src="{{i.beer.beer_label}}" alt="">
+      <div class="pop-details">
+        <a href="/beer/{{i.beer.bid}}">{{i.beer.beer_name}}</a>
+        <a href="/brewery/{{i.brewery.brewery_id}}">{{i.brewery.brewery_name}}</a>
       </div>
     </div>
+    {% endfor %}
+</div>
+
+<div class="activity-cont">
+  <h1>Recent Activity</h1>
+    <hr>
+    {% for checkin in checkins %}
+    <div class="checkin">
+      <div class="checkin-content">
+        <div class="avatar">
+          <a href="#">
+            <img class="avatar-img"src="{{checkin.user.user_avatar}}" alt="">
+          </a>
+        </div>
+        <div class="checkin-text">
+          <p>{{checkin.user.first_name}} {{checkin.user.last_name}} is drinking  <a href="/beer/{{checkin.beer.bid}}">{{checkin.beer.beer_name}}</a> by <a href="/brewery/{{checkin.brewery.brewery_id}}">{{checkin.brewery.brewery_name}}</a>
+            {% if checkin.venue.venue_name|length %}
+              at <a class="checkin-venue" href="/venue/{{checkin.venue.venue_id}}">
+                {{checkin.venue.venue_name}}
+              </a>
+            {% else %}
+
+            {% endif %}
+          </p>
+          <div class="checkin-date">
+            <p>{{checkin.created_at[:16]}}</p>
+          </div>
+        </div>
+        <div class="checkin-label">
+          <img class="label" src="{{checkin.beer.beer_label}}" alt="Label not found">
+        </div>
+      </div>
+    </div>
+    <hr>
+    {% endfor %}
   </div>
-  <hr>
-  {% endfor %}
-</div>
-</div>
 </section>
 
 

@@ -22,9 +22,11 @@ nextweek_As_str = datetime.strftime(today + timedelta(days=1), '%Y-%m-%d')
 
 API_URL = "https://api.untappd.com/v4"
 TRENDING = "https://api.untappd.com/v4/beer/trending"
+LOCAL = "https://api.untappd.com/v4/thepub/local"
 BID = "https://api.untappd.com/v4/beer/info/{}"
 BREWERY = "https://api.untappd.com/v4/brewery/info/{}"
 CHECKINS = "https://api.untappd.com/v4/beer/checkins/{}"
+VENUE = "https://api.untappd.com/v4/venue/info/{}"
 CLIENT_ID = "A3F72945ACFCA109BFC672EF1FA58A679AAB238B"
 CLIENT_SECRET = "B02EF4FC7AA1F189ED2CDE9E91D86C536828EFA0"
 API_PARAMS = "?client_id={}&client_secret={}"
@@ -46,16 +48,23 @@ def home():
 
     beers = data['response']['macro']['items']
 
+    pub_url = LOCAL + API_PARAMS.format(CLIENT_ID, CLIENT_SECRET)
+
+    trending_response = urllib.urlopen(api_url)
+    json_data = trending_response.read()
+    data = json.loads(json_data)
+
+    pubs = data['response']['macro']['items']
+
     if request.method == 'POST' and form.validate():
 
         input = str(form.search.data)
 
-        return redirect(url_for('search', input=input))
+        return redirect(url_for('search', input=input, form=form))
 
     else:
 
-        return render_template('home.html', form=form, beers=beers)
-
+        return render_template('home.html', form=form, beers=beers, pubs=pubs)
 
 @app.route('/search/<string:input>', methods=['GET', 'POST'])
 def search(input):
@@ -78,10 +87,12 @@ def search(input):
 
     else:
 
-        return render_template('search.html', beers=beers, form=form)
+        return render_template('search.html', beers=beers, form=form, input=input)
 
-@app.route('/beer/<string:bid>')
+@app.route('/beer/<string:bid>', methods=['GET', 'POST'])
 def beer(bid):
+
+    form = SearchForm(request.form)
 
     api_url = BID.format(bid) + API_PARAMS.format(CLIENT_ID, CLIENT_SECRET)
 
@@ -106,10 +117,18 @@ def beer(bid):
 
     checkins = data['response']['checkins']['items']
 
-    return render_template('beer.html', info=info, beer=beer, brewery=brewery, checkins=checkins)
+    if request.method == 'POST' and form.validate():
 
-@app.route('/brewery/<string:breweryid>')
+        input = str(form.search.data)
+
+        return redirect(url_for('search', input=input))
+
+    return render_template('beer.html', info=info, beer=beer, brewery=brewery, checkins=checkins, form=form)
+
+@app.route('/brewery/<string:breweryid>', methods=['GET', 'POST'])
 def brewery(breweryid):
+
+    form = SearchForm(request.form)
 
     api_url = BREWERY.format(breweryid) + API_PARAMS.format(CLIENT_ID, CLIENT_SECRET)
 
@@ -120,7 +139,36 @@ def brewery(breweryid):
     brewery = data['response']
     checkins = brewery['brewery']['media']['items']
 
-    return render_template('brewery.html', brewery=brewery, checkins=checkins)
+    if request.method == 'POST' and form.validate():
+
+        input = str(form.search.data)
+
+        return redirect(url_for('search', input=input))
+
+    return render_template('brewery.html', brewery=brewery, checkins=checkins, form=form)
+
+@app.route('/venue/<string:venueid>', methods=['GET', 'POST'])
+def venue(venueid):
+
+    form = SearchForm(request.form)
+
+    api_url = VENUE.format(venueid) + API_PARAMS.format(CLIENT_ID, CLIENT_SECRET)
+
+    response = urllib.urlopen(api_url)
+    json_data = response.read()
+    data = json.loads(json_data)
+
+    venue = data['response']
+    checkins = venue['venue']['media']['items']
+    popular = venue['venue']['top_beers']['items']
+
+    if request.method == 'POST' and form.validate():
+
+        input = str(form.search.data)
+
+        return redirect(url_for('search', input=input))
+
+    return render_template('venue.html', venue=venue, checkins=checkins, popular=popular, form=form)
 
 # Updates the css when changes are made
 @app.context_processor
@@ -137,7 +185,7 @@ def dated_url_for(endpoint, **values):
     return url_for(endpoint, **values)
 
 class SearchForm(Form):
-    search = StringField('search', [validators.length(min=1)], render_kw={"placeholder": "Search beers"})
+    search = StringField('', [validators.length(min=1)], render_kw={"placeholder": "Search beers"})
 
 #Run server
 if __name__ == '__main__':

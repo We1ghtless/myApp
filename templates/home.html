@@ -3,28 +3,41 @@
 {% block body %}
 
 <div class="content">
-  <div class="container top">
-    <a class="unsplash" href="https://unsplash.com/@beckeli?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Mary Rebecca Elliott"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewBox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"></path></svg></span><span style="display:inline-block;padding:2px 3px">Mary Rebecca Elliott</span></a>
-    <h1>Beer Pressure</h1>
-    <h2>Your favourite beers and where to find them</h2>
-    <form class="" action="" method="post">
-      <div class="form-control">
-      {{render_field(form.search, class_="form-control")}}
-      </div>
-      <div class="">
-        <p><input type="submit" class="" value="Search"><p>
-      </div>
-    </form>
-    <div class="container">
-      <ul>
-        {% for beer in beers %}
-          <li>
-            <img src="{{beer.beer.beer_label}}" alt="">
-            <h2>{{beer.beer.beer_name}}</h2>
-          </li>
-        {% endfor %}
-      </ul>
+  <div class="home-page">
+    <div class="header-text">
+      <p style="font-size:1.25em;">Beer Pressure is powered by the Untappd api. Here you can view the popualr beers in your area, breweries and venues around the world where people are drinking the same beers as you.</p>
+      <hr>
+      <h1 style="margin:0;">Popular beers in your area</h1>
     </div>
+    <div class="col">
+      {% for beer in beers %}
+        <div class="col-item">
+          <img class="home-image" src="{{beer.beer.beer_label}}" alt="">
+          <div class="home-basic">
+            <a href="/beer/{{beer.beer.bid}}">
+              <p class="beer-name">{{beer.beer.beer_name}}</p>
+            </a>
+            <a href="/brewery/{{beer.brewery.brewery_id}}">
+              <p class="home-brewery">{{beer.brewery.brewery_name}}</p>
+            </a>
+            <p class="home-style">{{beer.beer.beer_style}}</p>
+          </div>
+          <!-- <div class="home-details">
+            <p class="home-abv">{{beer.beer.beer_abv}}% ABV</p>
+          </div> -->
+        </div>
+      {% endfor %}
+    </div>
+    <!-- <div class="col2">
+      <p>Popular beers in your area</p>
+      <hr>
+      {% for i in pubs %}
+        <div class="pub">
+          <a href="/beer/{{i.beer.bid}}"><img class="pub-image"src="{{i.beer.beer_label}}" alt=""></a>
+          <a class="pub-text" href="/beer/{{i.beer.bid}}">{{i.beer.beer_name}}</a>
+        </div>
+      {% endfor %}
+    </div> -->
   </div>
 </div>
 
