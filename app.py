@@ -6,20 +6,13 @@ import urllib
 import json
 import sys
 import os
-import getopt
-import argparse
 import requests
-import geocoder
 import pythonUntappd
-import babel
+
 
 app = Flask(__name__)
 
-today = datetime.now()
-
-today_As_str = datetime.strftime(today, '%Y-%m-%d')
-nextweek_As_str = datetime.strftime(today + timedelta(days=1), '%Y-%m-%d')
-
+#Urls for making api requests
 API_URL = "https://api.untappd.com/v4"
 TRENDING = "https://api.untappd.com/v4/beer/trending"
 LOCAL = "https://api.untappd.com/v4/thepub/local"
@@ -38,45 +31,39 @@ api = pythonUntappd.api(CLIENT_ID, CLIENT_SECRET)
 @app.route('/', methods=['GET', 'POST'])
 def home():
 
+    #create instance of the form class in def
     form = SearchForm(request.form)
 
+    #url request to get a json response
     api_url = TRENDING + API_PARAMS.format(CLIENT_ID, CLIENT_SECRET)
-
     trending_response = urllib.urlopen(api_url)
     json_data = trending_response.read()
     data = json.loads(json_data)
 
+    #stepping through the json
     beers = data['response']['macro']['items']
 
-    pub_url = LOCAL + API_PARAMS.format(CLIENT_ID, CLIENT_SECRET)
-
-    trending_response = urllib.urlopen(api_url)
-    json_data = trending_response.read()
-    data = json.loads(json_data)
-
-    pubs = data['response']['macro']['items']
-
+    #if statement to see if the search bar has been used
     if request.method == 'POST' and form.validate():
 
         input = str(form.search.data)
 
+        #if it has redirect to the search page
         return redirect(url_for('search', input=input, form=form))
 
     else:
 
-        return render_template('home.html', form=form, beers=beers, pubs=pubs)
+        return render_template('home.html', form=form, beers=beers)
 
+#search route
 @app.route('/search/<string:input>', methods=['GET', 'POST'])
 def search(input):
 
     form = SearchForm(request.form)
 
     response = api.beer_search('{}'.format(input))
-
     data = response['response']
-
     items = data['beers']
-
     beers = items['items']
 
     if request.method == 'POST' and form.validate():
@@ -89,6 +76,7 @@ def search(input):
 
         return render_template('search.html', beers=beers, form=form, input=input)
 
+#route for beer by id
 @app.route('/beer/<string:bid>', methods=['GET', 'POST'])
 def beer(bid):
 
@@ -104,10 +92,6 @@ def beer(bid):
     brewery = data['response']['beer']['brewery']
 
     info = data['response']['beer']['media']['items']
-
-    # for n in info:
-    #     for venue in n['venue']:
-    #         for i in venue:
 
     api_url = CHECKINS.format(bid) + API_PARAMS.format(CLIENT_ID, CLIENT_SECRET)
 
@@ -184,6 +168,7 @@ def dated_url_for(endpoint, **values):
             values['q'] = int(os.stat(file_path).st_mtime)
     return url_for(endpoint, **values)
 
+#form class for the search element using wtformss
 class SearchForm(Form):
     search = StringField('', [validators.length(min=1)], render_kw={"placeholder": "Search beers"})
 
