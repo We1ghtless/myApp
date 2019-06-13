@@ -162,6 +162,7 @@ li .a {
 .beer-name {
   margin-top: auto;
   color: var(--link-colour);
+  margin-left: 6px;
 }
 
 .home-brewery {
