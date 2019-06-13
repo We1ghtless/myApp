@@ -15,16 +15,13 @@
           <img class="home-image" src="{{beer.beer.beer_label}}" alt="">
           <div class="home-basic">
             <a href="/beer/{{beer.beer.bid}}">
-              <p class="beer-name">{{beer.beer.beer_name}}</p>
+              <h2 class="beer-name">{{beer.beer.beer_name}}</h2>
             </a>
             <a href="/brewery/{{beer.brewery.brewery_id}}">
               <p class="home-brewery">{{beer.brewery.brewery_name}}</p>
             </a>
             <p class="home-style">{{beer.beer.beer_style}}</p>
           </div>
-          <!-- <div class="home-details">
-            <p class="home-abv">{{beer.beer.beer_abv}}% ABV</p>
-          </div> -->
         </div>
       {% endfor %}
     </div>
